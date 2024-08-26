@@ -5,7 +5,10 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
-    ->withProviders()
+    ->withProviders([
+        \Maatwebsite\Excel\ExcelServiceProvider::class,
+        \Nitmedia\Wkhtml2pdf\L5Wkhtml2pdfServiceProvider::class,
+    ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         // api: __DIR__.'/../routes/api.php',
