@@ -12,8 +12,8 @@ class EventAccessCodes extends MyBaseModel
     use SoftDeletes;
 
     /**
-     * @param integer $event_id
-     * @param string $accessCode
+     * @param  int  $event_id
+     * @param  string  $accessCode
      * @return void
      */
     public static function logUsage($event_id, $accessCode)
@@ -24,13 +24,11 @@ class EventAccessCodes extends MyBaseModel
     }
 
     /**
-     * @param $code
-     * @param $event_id
      * @return Collection
      */
     public static function findFromCode($code, $event_id)
     {
-        return (new static())
+        return (new static)
             ->where('code', $code)
             ->where('event_id', $event_id)
             ->get();
@@ -61,7 +59,7 @@ class EventAccessCodes extends MyBaseModel
     /**
      * @return BelongsToMany
      */
-    function tickets()
+    public function tickets()
     {
         return $this->belongsToMany(
             Ticket::class,
