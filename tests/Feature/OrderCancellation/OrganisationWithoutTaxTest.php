@@ -14,7 +14,7 @@ class OrganisationWithoutTaxTest extends TestCase
     {
         parent::setUp();
         $this->withoutMiddleware([
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\FirstRunMiddleware::class,
         ]);
         $this->setupOrganisationWithoutTax();
