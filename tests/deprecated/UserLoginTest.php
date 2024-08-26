@@ -1,18 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Attendize\Utils;
-
 class UserLoginTest extends TestCase
 {
     /**
      * Test login page is successful
-     *
-     * @return void
      */
-    public function test_login_is_successful()
+    public function test_login_is_successful(): void
     {
         $this->visit(route('login'))
             ->type($this->test_user_email, 'email')
@@ -23,10 +16,8 @@ class UserLoginTest extends TestCase
 
     /**
      * Test login page is unsuccessful with wrong password
-     *
-     * @return void
      */
-    public function test_login_is_unsuccessful_with_wrong_password()
+    public function test_login_is_unsuccessful_with_wrong_password(): void
     {
         $this->visit(route('login'))
             ->type($this->test_user_email, 'email')
@@ -38,10 +29,8 @@ class UserLoginTest extends TestCase
 
     /**
      * Test login page is unsuccessful with wrong email address
-     *
-     * @return void
      */
-    public function test_login_is_unsuccessful_with_wrong_email_address()
+    public function test_login_is_unsuccessful_with_wrong_email_address(): void
     {
         $this->visit(route('login'))
             ->type('other@email.com', 'email')

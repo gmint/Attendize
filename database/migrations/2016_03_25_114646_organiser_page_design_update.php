@@ -1,16 +1,14 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class OrganiserPageDesignUpdate extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('organisers', function (Blueprint $table) {
             $table->boolean('show_twitter_widget')->default(false);
@@ -24,10 +22,8 @@ class OrganiserPageDesignUpdate extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('organisers', function (Blueprint $table) {
             $table->dropColumn('show_twitter_widget');
@@ -37,4 +33,4 @@ class OrganiserPageDesignUpdate extends Migration
             $table->dropColumn('page_text_color');
         });
     }
-}
+};

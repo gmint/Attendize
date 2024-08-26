@@ -1,18 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\Models\PaymentGateway;
+use Illuminate\Database\Migrations\Migration;
 
-class DropCoinbaseAndMigsAsDefaults extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         PaymentGateway::where('name', 'Coinbase')->delete();
         PaymentGateway::where('name', 'Migs_ThreeParty')->delete();
@@ -20,11 +16,9 @@ class DropCoinbaseAndMigsAsDefaults extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         //
     }
-}
+};

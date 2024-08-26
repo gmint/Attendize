@@ -4,7 +4,4 @@ namespace App\Http\Controllers;
 
 /* Depreciated */
 
-class EventQuestionsController extends MyBaseController
-{
-
-}
+class EventQuestionsController extends MyBaseController {}

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Attendize\Utils;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use DB;
 
 class Account extends MyBaseModel
 {
@@ -13,32 +15,32 @@ class Account extends MyBaseModel
     /**
      * The validation rules
      *
-     * @var array $rules
+     * @var array
      */
     protected $rules = [
         'first_name' => ['required'],
-        'last_name'  => ['required'],
-        'email'      => ['required', 'email'],
+        'last_name' => ['required'],
+        'email' => ['required', 'email'],
     ];
 
     /**
      * The attributes that should be mutated to dates.
      *
-     * @var array $dates
+     * @var array
      */
     public $dates = ['deleted_at'];
 
     /**
      * The validation error messages.
      *
-     * @var array $messages
+     * @var array
      */
     protected $messages = [];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array $fillable
+     * @var array
      */
     protected $fillable = [
         'first_name',
@@ -65,25 +67,21 @@ class Account extends MyBaseModel
         'stripe_refresh_token',
         'stripe_secret_key',
         'stripe_publishable_key',
-        'stripe_data_raw'
+        'stripe_data_raw',
     ];
 
     /**
      * The users associated with the account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(\App\Models\User::class);
     }
 
     /**
      * The orders associated with the account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(\App\Models\Order::class);
     }
@@ -93,17 +91,15 @@ class Account extends MyBaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function currency()
+    public function currency(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Currency::class);
     }
 
     /**
      * Payment gateways associated with an account
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function account_payment_gateways()
+    public function account_payment_gateways(): HasMany
     {
         return $this->hasMany(\App\Models\AccountPaymentGateway::class);
     }
@@ -113,16 +109,15 @@ class Account extends MyBaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function gateways() {
+    public function gateways()
+    {
         return $this->account_payment_gateways();
     }
 
     /**
      * Get an accounts active payment gateway
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function active_payment_gateway()
+    public function active_payment_gateway(): HasOne
     {
         return $this->hasOne(\App\Models\AccountPaymentGateway::class, 'payment_gateway_id', 'payment_gateway_id')->where('account_id', $this->id);
     }
@@ -130,7 +125,6 @@ class Account extends MyBaseModel
     /**
      * Get an accounts gateways
      *
-     * @param $gateway_id
      * @return mixed
      */
     public function getGateway($gateway_id)
@@ -141,22 +135,18 @@ class Account extends MyBaseModel
     /**
      * Get a config value for a gateway
      *
-     * @param $gateway_id
-     * @param $key
      * @return mixed
      */
     public function getGatewayConfigVal($gateway_id, $key)
     {
         $gateway = $this->getGateway($gateway_id);
 
-        if($gateway && is_array($gateway->config)) {
+        if ($gateway && is_array($gateway->config)) {
             return isset($gateway->config[$key]) ? $gateway->config[$key] : false;
         }
 
         return false;
     }
-
-
 
     /**
      * Get the stripe api key.

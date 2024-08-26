@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +19,7 @@ class Attendee extends MyBaseModel
     use SoftDeletes;
 
     /**
-     * @var array $fillable
+     * @var array
      */
     protected $fillable = [
         'first_name',
@@ -29,17 +31,11 @@ class Attendee extends MyBaseModel
         'account_id',
         'reference',
         'has_arrived',
-        'arrival_time'
-    ];
-
-    protected $casts = [
-        'is_refunded'  => 'boolean',
-        'is_cancelled' => 'boolean',
+        'arrival_time',
     ];
 
     /**
      * Generate a private reference number for the attendee. Use for checking in the attendee.
-     *
      */
     public static function boot()
     {
@@ -58,8 +54,15 @@ class Attendee extends MyBaseModel
 
     }
 
+    protected function casts(): array
+    {
+        return [
+            'is_refunded' => 'boolean',
+            'is_cancelled' => 'boolean',
+        ];
+    }
+
     /**
-     * @param  array  $attendeeIds
      * @return Collection
      */
     public static function findFromSelection(array $attendeeIds = [])
@@ -69,38 +72,29 @@ class Attendee extends MyBaseModel
 
     /**
      * The order associated with the attendee.
-     *
-     * @return BelongsTo
      */
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
     /**
      * The ticket associated with the attendee.
-     *
-     * @return BelongsTo
      */
-    public function ticket()
+    public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);
     }
 
     /**
      * The event associated with the attendee.
-     *
-     * @return BelongsTo
      */
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    /**
-     * @return HasMany
-     */
-    public function answers()
+    public function answers(): HasMany
     {
         return $this->hasMany(QuestionAnswer::class);
     }
@@ -108,7 +102,6 @@ class Attendee extends MyBaseModel
     /**
      * Scope a query to return attendees that have not cancelled.
      *
-     * @param $query
      *
      * @return mixed
      */
@@ -130,7 +123,7 @@ class Attendee extends MyBaseModel
      */
     public function getReferenceAttribute()
     {
-        return $this->order->order_reference . '-' . $this->reference_index;
+        return $this->order->order_reference.'-'.$this->reference_index;
     }
 
     /**
@@ -140,9 +133,8 @@ class Attendee extends MyBaseModel
      */
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
-
 
     /**
      * The attributes that should be mutated to dates.

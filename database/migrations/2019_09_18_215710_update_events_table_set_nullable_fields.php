@@ -4,14 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateEventsTableSetNullableFields extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('events', static function (Blueprint $table) {
             $table->string('location_address_line_1', 355)->nullable()->change();
@@ -23,10 +21,8 @@ class UpdateEventsTableSetNullableFields extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('events', static function (Blueprint $table) {
             $table->string('location_address_line_1', 355)->nullable(false)->default('')->change();
@@ -35,4 +31,4 @@ class UpdateEventsTableSetNullableFields extends Migration
             $table->string('location_post_code', 355)->nullable(false)->default('')->change();
         });
     }
-}
+};

@@ -1,23 +1,18 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Attendize\Utils;
 
 class UserSignUpTest extends TestCase
 {
     /**
      * Test sign up page is successful
-     *
-     * @return void
      */
-    public function test_signup_is_successful()
+    public function test_signup_is_successful(): void
     {
         $this->visit(route('showSignup'))
-            ->type($this->faker->firstName, 'first_name')
-            ->type($this->faker->lastName, 'last_name')
-            ->type($this->faker->email, 'email')
+            ->type($this->faker->firstName(), 'first_name')
+            ->type($this->faker->lastName(), 'last_name')
+            ->type($this->faker->email(), 'email')
             ->type('password', 'password')
             ->type('password', 'password_confirmation');
 
@@ -34,10 +29,8 @@ class UserSignUpTest extends TestCase
 
     /**
      * Test sign up page is unsuccessful
-     *
-     * @return void
      */
-    public function test_signup_is_unsuccessful_because_of_no_values()
+    public function test_signup_is_unsuccessful_because_of_no_values(): void
     {
         $this->visit(route('showSignup'))
             ->press('Sign Up')
@@ -46,14 +39,12 @@ class UserSignUpTest extends TestCase
 
     /**
      * Test sign up page is unsuccessful
-     *
-     * @return void
      */
-    public function test_signup_is_unsuccessful_because_of_invalid_email()
+    public function test_signup_is_unsuccessful_because_of_invalid_email(): void
     {
         $this->visit(route('showSignup'))
-            ->type($this->faker->firstName, 'first_name')
-            ->type($this->faker->lastName, 'last_name')
+            ->type($this->faker->firstName(), 'first_name')
+            ->type($this->faker->lastName(), 'last_name')
             ->type('test@test', 'email')
             ->type('password', 'password')
             ->type('password', 'password_confirmation')
@@ -63,15 +54,13 @@ class UserSignUpTest extends TestCase
 
     /**
      * Test sign up page is unsuccessful
-     *
-     * @return void
      */
-    public function test_signup_is_unsuccessful_because_of_unmatched_password()
+    public function test_signup_is_unsuccessful_because_of_unmatched_password(): void
     {
         $this->visit(route('showSignup'))
-            ->type($this->faker->firstName, 'first_name')
-            ->type($this->faker->lastName, 'last_name')
-            ->type($this->faker->email, 'email')
+            ->type($this->faker->firstName(), 'first_name')
+            ->type($this->faker->lastName(), 'last_name')
+            ->type($this->faker->email(), 'email')
             ->type('password', 'password')
             ->type('incorrect_matching', 'password_confirmation')
             ->press('Sign Up')

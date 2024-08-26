@@ -4,15 +4,14 @@ namespace App\Jobs;
 
 use App\Mail\SendMessageToAttendeesMail;
 use App\Models\Attendee;
-use App\Models\Event;
 use App\Models\Message;
 use Carbon\Carbon;
+use Config;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Config;
 use Mail;
 
 class SendMessageToAttendeesJob implements ShouldQueue
@@ -33,10 +32,8 @@ class SendMessageToAttendeesJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->message->recipients == 'all') {
             $recipients = $this->message->event->attendees;
@@ -48,7 +45,7 @@ class SendMessageToAttendeesJob implements ShouldQueue
 
         foreach ($recipients as $attendee) {
             if ($attendee->is_cancelled) {
-               continue;
+                continue;
             }
 
             $mail = new SendMessageToAttendeesMail($this->message->subject, $this->message->message, $event, $attendee);

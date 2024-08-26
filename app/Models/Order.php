@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use File;
 use Illuminate\Database\Eloquent\Collection;
@@ -6,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use PDF;
 use Illuminate\Support\Str;
+use PDF;
 use Superbalist\Money\Money;
 
 class Order extends MyBaseModel
@@ -17,16 +19,16 @@ class Order extends MyBaseModel
     /**
      * The validation rules of the model.
      *
-     * @var array $rules
+     * @var array
      */
     public $rules = [
         'order_first_name' => ['required'],
-        'order_last_name'  => ['required'],
+        'order_last_name' => ['required'],
         'order_email' => ['required', 'email'],
     ];
 
     /**
-     * @var array $fillable
+     * @var array
      */
     protected $fillable = [
         'first_name',
@@ -42,65 +44,59 @@ class Order extends MyBaseModel
     /**
      * The validation error messages.
      *
-     * @var array $messages
+     * @var array
      */
     public $messages = [
         'order_first_name.required' => 'Please enter a valid first name',
-        'order_last_name.required'  => 'Please enter a valid last name',
+        'order_last_name.required' => 'Please enter a valid last name',
         'order_email.email' => 'Please enter a valid email',
     ];
 
-    protected $casts = [
-        'is_business' => 'boolean',
-        'is_refunded' => 'boolean',
-        'is_partially_refunded' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_business' => 'boolean',
+            'is_refunded' => 'boolean',
+            'is_partially_refunded' => 'boolean',
+        ];
+    }
 
     /**
      * The items associated with the order.
-     *
-     * @return HasMany
      */
-    public function orderItems()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
     /**
      * The attendees associated with the order.
-     *
-     * @return HasMany
      */
-    public function attendees()
+    public function attendees(): HasMany
     {
         return $this->hasMany(Attendee::class);
     }
 
     /**
      * The account associated with the order.
-     *
-     * @return BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
     /**
      * The event associated with the order.
-     *
-     * @return BelongsTo
      */
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
     /**
      * The tickets associated with the order.
-     * @return BelongsToMany
      */
-    public function tickets()
+    public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(
             Ticket::class,
@@ -110,24 +106,18 @@ class Order extends MyBaseModel
         );
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function payment_gateway()
+    public function payment_gateway(): BelongsTo
     {
         return $this->belongsTo(PaymentGateway::class);
     }
 
     /**
      * The status associated with the order.
-     *
-     * @return BelongsTo
      */
-    public function orderStatus()
+    public function orderStatus(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class);
     }
-
 
     /**
      * Get the organizer fee of the order.
@@ -156,7 +146,7 @@ class Order extends MyBaseModel
      */
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     /**
@@ -169,29 +159,29 @@ class Order extends MyBaseModel
     public function generatePdfTickets()
     {
         $data = [
-            'order'     => $this,
-            'event'     => $this->event,
-            'tickets'   => $this->event->tickets,
+            'order' => $this,
+            'event' => $this->event,
+            'tickets' => $this->event->tickets,
             'attendees' => $this->attendees,
-            'css'       => file_get_contents(public_path('assets/stylesheet/ticket.css')),
-            'image'     => base64_encode(file_get_contents(public_path($this->event->organiser->full_logo_path))),
+            'css' => file_get_contents(public_path('assets/stylesheet/ticket.css')),
+            'image' => base64_encode(file_get_contents(public_path($this->event->organiser->full_logo_path))),
         ];
 
-        $pdf_file_path = public_path(config('attendize.event_pdf_tickets_path')) . '/' . $this->order_reference;
-        $pdf_file = $pdf_file_path . '.pdf';
+        $pdf_file_path = public_path(config('attendize.event_pdf_tickets_path')).'/'.$this->order_reference;
+        $pdf_file = $pdf_file_path.'.pdf';
 
         if (file_exists($pdf_file)) {
             return true;
         }
 
-        if (!is_dir($pdf_file_path)) {
+        if (! is_dir($pdf_file_path)) {
             File::makeDirectory(dirname($pdf_file_path), 0777, true, true);
         }
 
         PDF::setOutputMode('F'); // force to file
         PDF::html('Public.ViewEvent.Partials.PDFTicket', $data, $pdf_file_path);
 
-        $this->ticket_pdf_path = config('attendize.event_pdf_tickets_path') . '/' . $this->order_reference . '.pdf';
+        $this->ticket_pdf_path = config('attendize.event_pdf_tickets_path').'/'.$this->order_reference.'.pdf';
         $this->save();
 
         return file_exists($pdf_file);
@@ -206,13 +196,13 @@ class Order extends MyBaseModel
 
         static::creating(function ($order) {
             do {
-                    //generate a random string using Laravel's Str::Random helper
-                    $token = Str::Random(5) . date('jn');
+                //generate a random string using Laravel's Str::Random helper
+                $token = Str::Random(5).date('jn');
             } //check if the token already exists and if it does, try again
 
-			while (Order::where('order_reference', $token)->first());
+            while (Order::where('order_reference', $token)->first());
             $order->order_reference = $token;
-		});
+        });
     }
 
     /**
@@ -250,6 +240,7 @@ class Order extends MyBaseModel
         $currency = $this->getEventCurrency();
         $organiserAmount = new Money($this->organiser_amount, $currency);
         $refundedAmount = new Money($this->amount_refunded, $currency);
+
         return $organiserAmount->subtract($refundedAmount);
     }
 
@@ -271,7 +262,7 @@ class Order extends MyBaseModel
      */
     public function getRefundedAmountIncludingTax()
     {
-        return (new Money($this->amount_refunded, $this->getEventCurrency()));
+        return new Money($this->amount_refunded, $this->getEventCurrency());
     }
 
     /**
@@ -279,7 +270,7 @@ class Order extends MyBaseModel
      */
     public function getPartiallyRefundedAmount()
     {
-        return (new Money($this->amount_refunded, $this->getEventCurrency()));
+        return new Money($this->amount_refunded, $this->getEventCurrency());
     }
 
     /**
@@ -295,12 +286,12 @@ class Order extends MyBaseModel
             $eventCurrency->code,
             empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
             $eventCurrency->title,
-            !empty($eventCurrency->symbol_left)
+            ! empty($eventCurrency->symbol_left)
         );
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function canRefund()
     {

@@ -4,12 +4,12 @@ namespace App\Jobs;
 
 use App\Mail\SendOrderAttendeeTicketMail;
 use App\Models\Attendee;
+use Config;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Config;
 use Mail;
 
 class SendOrderAttendeeTicketJob implements ShouldQueue
@@ -30,10 +30,8 @@ class SendOrderAttendeeTicketJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         GenerateTicketJob::dispatchNow($this->attendee);
         $mail = new SendOrderAttendeeTicketMail($this->attendee);

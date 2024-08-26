@@ -19,8 +19,8 @@ $factory->define(App\Models\Ticket::class, function (Faker\Generator $faker) {
         'event_id' => function () {
             return factory(App\Models\Event::class)->create()->id;
         },
-        'title' => $faker->name,
-        'description' => $faker->text,
+        'title' => $faker->name(),
+        'description' => $faker->text(),
         'price' => 50.00,
         'max_per_person' => 4,
         'min_per_person' => 1,

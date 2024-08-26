@@ -1,33 +1,28 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\Models\Message;
+use Illuminate\Database\Migrations\Migration;
 
-class FixMessagesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-            Schema::table('messages', function ($table) {
-                $table->string('recipients')->nullable()->change();
-            });
+        Schema::table('messages', function ($table) {
+            $table->string('recipients')->nullable()->change();
+        });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-	    Message::where('recipients', null)->delete();
-            Schema::table('messages', function ($table) {
-                $table->string('recipients')->nullable(false)->change();
-            });
+        Message::where('recipients', null)->delete();
+        Schema::table('messages', function ($table) {
+            $table->string('recipients')->nullable(false)->change();
+        });
     }
-}
+};

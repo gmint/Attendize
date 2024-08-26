@@ -4,25 +4,24 @@ namespace App\Http\Middleware;
 
 use App\Models\Organiser;
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FirstRunMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Closure $next
-     *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         /*
          * If there are no organisers then redirect the user to create one
          * else - if there's only one organiser bring the user straight there.
          */
         $organizerCount = Organiser::scope()->count();
-        if ($organizerCount === 0 && !($request->route()->getName() === 'showCreateOrganiser') && !($request->route()->getName() === 'postCreateOrganiser')) {
+        if ($organizerCount === 0 && ! ($request->route()->getName() === 'showCreateOrganiser') && ! ($request->route()->getName() === 'postCreateOrganiser')) {
             return redirect(route('showCreateOrganiser', [
                 'first_run' => '1',
             ]));

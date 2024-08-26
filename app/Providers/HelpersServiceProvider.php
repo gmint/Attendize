@@ -10,10 +10,8 @@ class HelpersServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         require app_path('Helpers/helpers.php');
         require app_path('Helpers/strings.php');
@@ -43,10 +41,6 @@ class HelpersServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
-     * @return void
      */
-    public function register()
-    {
-    }
+    public function register(): void {}
 }

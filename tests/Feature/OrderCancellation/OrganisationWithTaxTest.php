@@ -1,4 +1,6 @@
-<?php namespace Tests\Features;
+<?php
+
+namespace Tests\Features;
 
 use App\Models\Attendee;
 use Tests\Concerns\OrganisationWithTax;
@@ -8,11 +10,11 @@ class OrganisationWithTaxTest extends TestCase
 {
     use OrganisationWithTax;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withoutMiddleware([
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\FirstRunMiddleware::class,
         ]);
         $this->setupOrganisationWithTax();
@@ -21,7 +23,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_single_ticket_and_tax()
+    public function cancels_and_refunds_order_with_single_ticket_and_tax(): void
     {
         // Setup single attendee order
         [$order, $attendees] = $this->makeTicketOrder(1, 150.00);
@@ -36,24 +38,24 @@ class OrganisationWithTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold'          => 0,
-                'sales_volume'          => 0.00,
+                'tickets_sold' => 0,
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets'     => [
-                'sales_volume'          => 0.00,
+            'tickets' => [
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold'         => 0,
+                'quantity_sold' => 0,
             ],
-            'orders'      => [
+            'orders' => [
                 'organiser_booking_fee' => 0.00,
-                'amount'                => 150.00,
-                'amount_refunded'       => 180.00,
-                'taxamt'                => 30.00,
-                'is_refunded'           => true,
+                'amount' => 150.00,
+                'amount_refunded' => 180.00,
+                'taxamt' => 30.00,
+                'is_refunded' => true,
             ],
-            'attendees'   => [
-                'is_refunded'  => true,
+            'attendees' => [
+                'is_refunded' => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -62,7 +64,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_multiple_tickets_and_tax()
+    public function cancels_and_refunds_order_with_multiple_tickets_and_tax(): void
     {
         // Setup multiple attendee order but refund only 3 out of 5
         [$order, $attendees] = $this->makeTicketOrder(5, 150.00);
@@ -81,20 +83,20 @@ class OrganisationWithTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold'          => 2,
-                'sales_volume'          => 300.00,
+                'tickets_sold' => 2,
+                'sales_volume' => 300.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets'     => [
-                'sales_volume'          => 300.00,
+            'tickets' => [
+                'sales_volume' => 300.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold'         => 2,
+                'quantity_sold' => 2,
             ],
-            'orders'      => [
+            'orders' => [
                 'organiser_booking_fee' => 0.00,
-                'amount'                => 750.00,
-                'amount_refunded'       => 540.00,
-                'taxamt'                => 150.00,
+                'amount' => 750.00,
+                'amount_refunded' => 540.00,
+                'taxamt' => 150.00,
                 'is_partially_refunded' => true,
             ],
         ]);
@@ -110,7 +112,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_single_ticket_with_tax_and_percentage_booking_fees()
+    public function cancels_and_refunds_order_with_single_ticket_with_tax_and_percentage_booking_fees(): void
     {
         // Setup single attendee order with % fees
         [$order, $attendees] = $this->makeTicketOrder(1, 150.00, true);
@@ -125,24 +127,24 @@ class OrganisationWithTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold'          => 0,
-                'sales_volume'          => 0.00,
+                'tickets_sold' => 0,
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets'     => [
-                'sales_volume'          => 0.00,
+            'tickets' => [
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold'         => 0,
+                'quantity_sold' => 0,
             ],
-            'orders'      => [
+            'orders' => [
                 'organiser_booking_fee' => 18.00, // 12% fee
-                'amount'                => 150.00,
-                'amount_refunded'       => 201.60,
-                'taxamt'                => 33.6, // 20% VAT
-                'is_refunded'           => true,
+                'amount' => 150.00,
+                'amount_refunded' => 201.60,
+                'taxamt' => 33.6, // 20% VAT
+                'is_refunded' => true,
             ],
-            'attendees'   => [
-                'is_refunded'  => true,
+            'attendees' => [
+                'is_refunded' => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -151,7 +153,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_multiple_tickets_with_tax_and_percentage_booking_fees()
+    public function cancels_and_refunds_order_with_multiple_tickets_with_tax_and_percentage_booking_fees(): void
     {
         // Setup single attendee order with % fees
         [$order, $attendees] = $this->makeTicketOrder(5, 120.00, true);
@@ -172,16 +174,16 @@ class OrganisationWithTaxTest extends TestCase
         $eventStats = \App\Models\EventStats::first()
             ->only('tickets_sold', 'sales_volume', 'organiser_fees_volume');
         $this->assertEquals([
-            'tickets_sold'          => 2,
-            'sales_volume'          => 240,
+            'tickets_sold' => 2,
+            'sales_volume' => 240,
             'organiser_fees_volume' => 28.8, // 12% Fees
         ], $eventStats);
 
         $tickets = \App\Models\Ticket::first()
             ->only('sales_volume', 'organiser_fees_volume', 'quantity_sold');
         $this->assertEquals([
-            'quantity_sold'         => 2,
-            'sales_volume'          => 240,
+            'quantity_sold' => 2,
+            'sales_volume' => 240,
             'organiser_fees_volume' => 28.8, // 12% Fees
         ], $tickets);
 
@@ -189,9 +191,9 @@ class OrganisationWithTaxTest extends TestCase
             ->only('organiser_booking_fee', 'amount', 'amount_refunded', 'taxamt', 'is_partially_refunded');
         $this->assertEquals([
             'organiser_booking_fee' => 72.00, // 12% Fees
-            'amount'                => 600.00,
-            'amount_refunded'       => 483.84,
-            'taxamt'                => 134.40, // 20% VAT
+            'amount' => 600.00,
+            'amount_refunded' => 483.84,
+            'taxamt' => 134.40, // 20% VAT
             'is_partially_refunded' => true,
         ], $order);
 
@@ -206,7 +208,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_single_ticket_with_tax_and_fixed_booking_fees()
+    public function cancels_and_refunds_order_with_single_ticket_with_tax_and_fixed_booking_fees(): void
     {
         // Setup single attendee order with % fees
         [$order, $attendees] = $this->makeTicketOrder(1, 50.00, false, true);
@@ -221,24 +223,24 @@ class OrganisationWithTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold'          => 0,
-                'sales_volume'          => 0.00,
+                'tickets_sold' => 0,
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets'     => [
-                'sales_volume'          => 0.00,
+            'tickets' => [
+                'sales_volume' => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold'         => 0,
+                'quantity_sold' => 0,
             ],
-            'orders'      => [
+            'orders' => [
                 'organiser_booking_fee' => 3.50, // Fixed fee
-                'amount'                => 50.00,
-                'amount_refunded'       => 64.20,
-                'taxamt'                => 10.70, // 20% VAT
-                'is_refunded'           => true,
+                'amount' => 50.00,
+                'amount_refunded' => 64.20,
+                'taxamt' => 10.70, // 20% VAT
+                'is_refunded' => true,
             ],
-            'attendees'   => [
-                'is_refunded'  => true,
+            'attendees' => [
+                'is_refunded' => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -247,7 +249,7 @@ class OrganisationWithTaxTest extends TestCase
     /**
      * @test
      */
-    public function cancels_and_refunds_order_with_multiple_tickets_with_tax_and_fixed_booking_fees()
+    public function cancels_and_refunds_order_with_multiple_tickets_with_tax_and_fixed_booking_fees(): void
     {
         // Setup single attendee order with % fees
         [$order, $attendees] = $this->makeTicketOrder(5, 240.00, false, true);
@@ -265,20 +267,20 @@ class OrganisationWithTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold'          => 3,
-                'sales_volume'          => 720.00,
+                'tickets_sold' => 3,
+                'sales_volume' => 720.00,
                 'organiser_fees_volume' => 10.50, // Fixed fee 3.50
             ],
-            'tickets'     => [
-                'sales_volume'          => 720.00,
+            'tickets' => [
+                'sales_volume' => 720.00,
                 'organiser_fees_volume' => 10.50,
-                'quantity_sold'         => 3,
+                'quantity_sold' => 3,
             ],
-            'orders'      => [
+            'orders' => [
                 'organiser_booking_fee' => 17.50, // Fixed fee 3.50
-                'amount'                => 1200.00,
-                'amount_refunded'       => 584.40,
-                'taxamt'                => 243.50, // 20% VAT
+                'amount' => 1200.00,
+                'amount_refunded' => 584.40,
+                'taxamt' => 243.50, // 20% VAT
                 'is_partially_refunded' => true,
             ],
         ]);

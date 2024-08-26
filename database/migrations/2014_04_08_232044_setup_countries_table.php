@@ -2,14 +2,12 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class SetupCountriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         // Creates the users table
         Schema::create('countries', function ($table) {
@@ -34,11 +32,9 @@ class SetupCountriesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('countries');
     }
-}
+};

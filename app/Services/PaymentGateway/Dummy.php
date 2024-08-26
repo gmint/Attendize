@@ -4,8 +4,7 @@ namespace Services\PaymentGateway;
 
 class Dummy
 {
-
-    CONST GATEWAY_NAME = 'Dummy';
+    const GATEWAY_NAME = 'Dummy';
 
     private $transaction_data;
 
@@ -23,10 +22,10 @@ class Dummy
         $this->transaction_data = [
             'amount' => $order_total,
             'currency' => $event->currency->code,
-            'description' => 'Order for customer: ' . $order_email,
+            'description' => 'Order for customer: '.$order_email,
             'card' => config('attendize.fake_card_data'),
             'token' => $token,
-            'receipt_email' => $order_email
+            'receipt_email' => $order_email,
         ];
 
         return $this->transaction_data;
@@ -42,7 +41,8 @@ class Dummy
         return $response;
     }
 
-    public function getTransactionData() {
+    public function getTransactionData()
+    {
         return $this->transaction_data;
     }
 
@@ -52,16 +52,18 @@ class Dummy
 
     public function getAdditionalData() {}
 
-    public function storeAdditionalData() {
+    public function storeAdditionalData()
+    {
         return false;
     }
 
-    public function refundTransaction($order, $refund_amount, $refund_application_fee) {
+    public function refundTransaction($order, $refund_amount, $refund_application_fee)
+    {
 
         $request = $this->gateway->refund([
             'transactionReference' => $order->transaction_id,
-            'amount'               => $refund_amount,
-            'refundApplicationFee' => $refund_application_fee
+            'amount' => $refund_amount,
+            'refundApplicationFee' => $refund_application_fee,
         ]);
 
         $response = $request->send();
@@ -75,5 +77,4 @@ class Dummy
 
         return $refundResponse;
     }
-
 }

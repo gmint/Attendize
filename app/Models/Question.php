@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -15,11 +18,8 @@ class Question extends MyBaseModel
 
     /**
      * The events associated with the question.
-     *
-     * @access public
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function events()
+    public function events(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Event::class);
     }
@@ -27,15 +27,14 @@ class Question extends MyBaseModel
     /**
      * The type associated with the question.
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function question_type()
+    public function question_type(): BelongsTo
     {
         return $this->belongsTo(\App\Models\QuestionType::class);
     }
 
-    public function answers()
+    public function answers(): HasMany
     {
         return $this->hasMany(\App\Models\QuestionAnswer::class);
     }
@@ -43,15 +42,14 @@ class Question extends MyBaseModel
     /**
      * The options associated with the question.
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function options()
+    public function options(): HasMany
     {
         return $this->hasMany(\App\Models\QuestionOption::class);
     }
 
-    public function tickets()
+    public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Ticket::class);
     }

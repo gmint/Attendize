@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Organiser;
 
 class OrganiserTest extends TestCase
@@ -10,23 +7,23 @@ class OrganiserTest extends TestCase
     /**
      * @group passing
      */
-    public function test_create_organiser_is_successful_when_charge_tax_is_no()
+    public function test_create_organiser_is_successful_when_charge_tax_is_no(): void
     {
 
-        $email = $this->faker->email;
+        $email = $this->faker->email();
 
         $this->actingAs($this->test_user)
             ->visit(route('showCreateOrganiser'))
-            ->type($this->faker->name, 'name')
+            ->type($this->faker->name(), 'name')
             ->type($email, 'email')
             ->type('No', 'charge_tax')
             ->press('Create Organiser')
             ->seeJson([
-                'status' => 'success'
+                'status' => 'success',
             ]);
 
         //get the most recently created organiser from database
-        $this->organiser = Organiser::where('email','=', $email)->orderBy('created_at', 'desc')->first();
+        $this->organiser = Organiser::where('email', '=', $email)->orderBy('created_at', 'desc')->first();
         //check the charge tax flag is 0
         $this->assertEquals($this->organiser->charge_tax, 0);
     }
@@ -34,13 +31,13 @@ class OrganiserTest extends TestCase
     /**
      * @group passing
      */
-    public function test_create_organiser_is_successful_when_charge_tax_is_yes()
+    public function test_create_organiser_is_successful_when_charge_tax_is_yes(): void
     {
-        $email = $this->faker->email;
+        $email = $this->faker->email();
 
         $this->actingAs($this->test_user)
             ->visit(route('showCreateOrganiser'))
-            ->type($this->faker->name, 'name')
+            ->type($this->faker->name(), 'name')
             ->type($email, 'email')
             ->type('organisers', 'tax_name')
             ->type(12323, 'tax_id')
@@ -48,11 +45,11 @@ class OrganiserTest extends TestCase
             ->type('Yes', 'charge_tax')
             ->press('Create Organiser')
             ->seeJson([
-                'status' => 'success'
+                'status' => 'success',
             ]);
 
         //get the most recently created organiser from database
-        $this->organiser = Organiser::where('email','=', $email)->orderBy('created_at', 'desc')->first();
+        $this->organiser = Organiser::where('email', '=', $email)->orderBy('created_at', 'desc')->first();
         //check the charge tax flag is 1
         $this->assertEquals($this->organiser->charge_tax, 1);
     }
@@ -60,7 +57,7 @@ class OrganiserTest extends TestCase
     /**
      * @group passing
      */
-    public function test_create_organiser_fails_when_organiser_details_missing()
+    public function test_create_organiser_fails_when_organiser_details_missing(): void
     {
         $this->actingAs($this->test_user)
             ->visit(route('showCreateOrganiser'))
@@ -69,7 +66,7 @@ class OrganiserTest extends TestCase
             ->type('No', 'charge_tax')
             ->press('Create Organiser')
             ->seeJson([
-                'status' => 'error'
+                'status' => 'error',
             ]);
     }
 }

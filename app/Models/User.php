@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Notifications\UserResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -22,7 +24,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be mutated to dates.
      *
-     * @var array $dates
+     * @var array
      */
     public $dates = ['deleted_at'];
 
@@ -51,34 +53,33 @@ class User extends Authenticatable
         'is_registered',
         'is_confirmed',
         'is_parent',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+        ];
+    }
 
     /**
      * The account associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Account::class);
     }
 
     /**
      * The activity associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function activity()
+    public function activity(): HasMany
     {
         return $this->hasMany(\App\Models\Activity::class);
     }
@@ -150,7 +151,7 @@ class User extends Authenticatable
      */
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     /**

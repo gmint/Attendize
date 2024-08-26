@@ -1,28 +1,23 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Attendize\Utils;
-
 class UserTest extends TestCase
 {
-    public function test_edit_user_is_successful()
+    public function test_edit_user_is_successful(): void
     {
         $this->actingAs($this->test_user);
 
         factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 
-        $server = array('HTTP_X-Requested-With' => 'XMLHttpRequest');
+        $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
 
-        $firstName = $this->faker->firstName;
-        $lastName = $this->faker->lastName;
+        $firstName = $this->faker->firstName();
+        $lastName = $this->faker->lastName();
         $email = 'new@email.com.au';
-        $post = array(
+        $post = [
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
-        );
+        ];
 
         $this->call('post', route('postEditUser'), $post, $server);
 
@@ -38,7 +33,7 @@ class UserTest extends TestCase
         $this->assertEquals($email, $user->email);
     }
 
-    public function test_edit_user_is_successful_when_changing_password()
+    public function test_edit_user_is_successful_when_changing_password(): void
     {
         $this->actingAs($this->test_user);
 
@@ -46,19 +41,19 @@ class UserTest extends TestCase
 
         factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 
-        $server = array('HTTP_X-Requested-With' => 'XMLHttpRequest');
+        $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
 
-        $firstName = $this->faker->firstName;
-        $lastName = $this->faker->lastName;
+        $firstName = $this->faker->firstName();
+        $lastName = $this->faker->lastName();
         $email = 'new@email.com.au';
-        $post = array(
+        $post = [
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
             'password' => $this->test_user_password,
             'new_password' => 'newpassword',
             'new_password_confirmation' => 'newpassword',
-        );
+        ];
 
         $this->call('post', route('postEditUser'), $post, $server);
 
@@ -75,22 +70,22 @@ class UserTest extends TestCase
         $this->assertNotEquals($previousPassword, $user->password);
     }
 
-    public function test_edit_user_is_unsuccessful_because_of_invalid_email()
+    public function test_edit_user_is_unsuccessful_because_of_invalid_email(): void
     {
         $this->actingAs($this->test_user);
 
         factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 
-        $server = array('HTTP_X-Requested-With' => 'XMLHttpRequest');
+        $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
 
-        $firstName = $this->faker->firstName;
-        $lastName = $this->faker->lastName;
+        $firstName = $this->faker->firstName();
+        $lastName = $this->faker->lastName();
         $email = 'new@email';
-        $post = array(
+        $post = [
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
-        );
+        ];
 
         $this->call('post', route('postEditUser'), $post, $server);
 
@@ -99,21 +94,21 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_edit_user_is_unsuccessful_because_of_no_first_name()
+    public function test_edit_user_is_unsuccessful_because_of_no_first_name(): void
     {
         $this->actingAs($this->test_user);
 
         factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 
-        $server = array('HTTP_X-Requested-With' => 'XMLHttpRequest');
+        $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
 
-        $lastName = $this->faker->lastName;
+        $lastName = $this->faker->lastName();
         $email = 'new@email';
-        $post = array(
+        $post = [
             'first_name' => '',
             'last_name' => $lastName,
             'email' => $email,
-        );
+        ];
 
         $this->call('post', route('postEditUser'), $post, $server);
 
@@ -122,21 +117,21 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_edit_user_is_unsuccessful_because_of_no_last_name()
+    public function test_edit_user_is_unsuccessful_because_of_no_last_name(): void
     {
         $this->actingAs($this->test_user);
 
         factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 
-        $server = array('HTTP_X-Requested-With' => 'XMLHttpRequest');
+        $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
 
-        $firstName = $this->faker->firstName;
+        $firstName = $this->faker->firstName();
         $email = 'new@email';
-        $post = array(
+        $post = [
             'first_name' => $firstName,
             'last_name' => '',
             'email' => $email,
-        );
+        ];
 
         $this->call('post', route('postEditUser'), $post, $server);
 

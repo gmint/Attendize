@@ -4,8 +4,8 @@ use App\Models\Timezone;
 
 $factory->define(Timezone::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->timezone,
-        'location' => $faker->city,
+        'name' => $faker->timezone(),
+        'location' => $faker->city(),
     ];
 });
 

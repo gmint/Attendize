@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 
 $factory->define(Account::class, function (Generator $faker) {
     return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->email,
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName(),
+        'email' => $faker->email(),
         'timezone_id' => function () {
             return factory(Timezone::class)->create()->id;
         },
@@ -26,15 +26,15 @@ $factory->define(Account::class, function (Generator $faker) {
         'currency_id' => function () {
             return factory(Currency::class)->create()->id;
         },
-        'name' => $faker->name,
-        'last_ip' => "127.0.0.1",
+        'name' => $faker->name(),
+        'last_ip' => '127.0.0.1',
         'last_login_date' => Carbon::now()->subDays(2),
-        'address1' => $faker->address,
-        'address2' => "",
-        'city' => $faker->city,
-        'state' => $faker->stateAbbr,
-        'postal_code' => $faker->postcode,
-//        'country_id'             => factory(App\Models\Country::class)->create()->id,
+        'address1' => $faker->address(),
+        'address2' => '',
+        'city' => $faker->city(),
+        'state' => $faker->stateAbbr(),
+        'postal_code' => $faker->postcode(),
+        //        'country_id'             => factory(App\Models\Country::class)->create()->id,
         'email_footer' => 'Email footer text',
         'is_active' => false,
         'is_banned' => false,

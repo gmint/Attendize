@@ -1,16 +1,14 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddQuestionAnswersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('question_answers', function (Blueprint $table) {
             $table->increments('id');
@@ -34,13 +32,11 @@ class AddQuestionAnswersTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('question_answers');
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
-}
+};

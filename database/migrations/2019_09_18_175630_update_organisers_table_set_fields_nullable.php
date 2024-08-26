@@ -4,14 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateOrganisersTableSetFieldsNullable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('organisers', function (Blueprint $table) {
             $table->text('about')->nullable()->change();
@@ -25,10 +23,8 @@ class UpdateOrganisersTableSetFieldsNullable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('organisers', function (Blueprint $table) {
             $table->text('about')->nullable(false)->default('')->change();
@@ -39,4 +35,4 @@ class UpdateOrganisersTableSetFieldsNullable extends Migration
             $table->string('twitter')->nullable(false)->default('')->change();
         });
     }
-}
+};

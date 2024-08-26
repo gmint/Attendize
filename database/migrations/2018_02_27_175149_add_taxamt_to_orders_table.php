@@ -1,31 +1,26 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTaxamtToOrdersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('orders', function($table) {
+        Schema::table('orders', function ($table) {
             $table->float('taxamt')->default(0.00);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('orders', function($table) {
+        Schema::table('orders', function ($table) {
             $table->dropColumn('taxamt');
         });
     }
-}
+};
