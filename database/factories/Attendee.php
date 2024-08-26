@@ -13,9 +13,9 @@ $factory->define(App\Models\Attendee::class, function (Faker\Generator $faker) {
         'ticket_id' => function () {
             return factory(App\Models\Ticket::class)->create()->id;
         },
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->email,
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName(),
+        'email' => $faker->email(),
         'reference_index' => $faker->numberBetween(),
         'private_reference_number' => 1,
         'is_cancelled' => false,

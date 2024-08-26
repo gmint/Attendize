@@ -4,11 +4,11 @@ use App\Models\PaymentGateway;
 
 $factory->define(PaymentGateway::class, function (Faker\Generator $faker) {
     return [
-        'provider_name' => $faker->company,
-        'provider_url' => $faker->url,
+        'provider_name' => $faker->company(),
+        'provider_url' => $faker->url(),
         'is_on_site' => $faker->boolean(),
         'can_refund' => $faker->boolean(),
-        'name' => $faker->company,
+        'name' => $faker->company(),
         'default' => $faker->boolean(),
         'admin_blade_template' => '',
         'checkout_blade_template' => '',

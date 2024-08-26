@@ -10,9 +10,9 @@ $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
         'order_status_id' => function () {
             return factory(App\Models\OrderStatus::class)->create()->id;
         },
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->email,
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName(),
+        'email' => $faker->email(),
         'ticket_pdf_path' => '/ticket/pdf/path',
         'order_reference' => $faker->text(15),
         'transaction_id' => $faker->text(50),
@@ -20,7 +20,7 @@ $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
         'booking_fee' => .10,
         'organiser_booking_fee' => .10,
         'order_date' => Carbon::now(),
-        'notes' => $faker->text,
+        'notes' => $faker->text(),
         'is_deleted' => 0,
         'is_cancelled' => 0,
         'is_partially_refunded' => 0,

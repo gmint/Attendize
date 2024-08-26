@@ -7,7 +7,7 @@ $factory->define(App\Models\EventAccessCodes::class, function (Faker\Generator $
         'event_id' => function () {
             return factory(App\Models\Event::class)->create()->id;
         },
-        'code' => $faker->word,
+        'code' => $faker->word(),
         'usage_count' => 0,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
