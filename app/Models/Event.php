@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,8 +57,6 @@ class Event extends MyBaseModel
 
     /**
      * The questions associated with the event.
-     *
-     * @return BelongsToMany
      */
     public function questions(): BelongsToMany
     {
@@ -67,8 +65,6 @@ class Event extends MyBaseModel
 
     /**
      * The questions associated with the event.
-     *
-     * @return BelongsToMany
      */
     public function questions_with_trashed(): BelongsToMany
     {
@@ -77,8 +73,6 @@ class Event extends MyBaseModel
 
     /**
      * The images associated with the event.
-     *
-     * @return HasMany
      */
     public function images(): HasMany
     {
@@ -97,8 +91,6 @@ class Event extends MyBaseModel
 
     /**
      * The tickets associated with the event.
-     *
-     * @return HasMany
      */
     public function tickets(): HasMany
     {
@@ -107,8 +99,6 @@ class Event extends MyBaseModel
 
     /**
      * The affiliates associated with the event.
-     *
-     * @return HasMany
      */
     public function affiliates(): HasMany
     {
@@ -117,8 +107,6 @@ class Event extends MyBaseModel
 
     /**
      * The orders associated with the event.
-     *
-     * @return HasMany
      */
     public function orders(): HasMany
     {
@@ -127,8 +115,6 @@ class Event extends MyBaseModel
 
     /**
      * The account associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account(): BelongsTo
     {
@@ -137,8 +123,6 @@ class Event extends MyBaseModel
 
     /**
      * The organizer associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function organiser(): BelongsTo
     {
@@ -297,8 +281,6 @@ class Event extends MyBaseModel
 
     /**
      * The attendees associated with the event.
-     *
-     * @return HasMany
      */
     public function attendees(): HasMany
     {
@@ -413,8 +395,6 @@ ICSTemplate;
 
     /**
      * The access codes associated with the event.
-     *
-     * @return HasMany
      */
     public function access_codes(): HasMany
     {
@@ -459,8 +439,6 @@ ICSTemplate;
 
     /**
      * The currency associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency(): BelongsTo
     {
@@ -469,8 +447,6 @@ ICSTemplate;
 
     /**
      * The stats associated with the event.
-     *
-     * @return HasMany
      */
     public function stats(): HasMany
     {

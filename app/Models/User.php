@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Notifications\UserResetPassword;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Notifications\UserResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -70,8 +70,6 @@ class User extends Authenticatable
 
     /**
      * The account associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account(): BelongsTo
     {
@@ -80,8 +78,6 @@ class User extends Authenticatable
 
     /**
      * The activity associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function activity(): HasMany
     {

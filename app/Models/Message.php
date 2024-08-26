@@ -28,8 +28,6 @@ class Message extends MyBaseModel
 
     /**
      * The event associated with the message.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function event(): BelongsTo
     {

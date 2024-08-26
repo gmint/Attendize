@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Attendize\PaymentUtils;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -52,8 +52,6 @@ class Ticket extends MyBaseModel
 
     /**
      * The event associated with the ticket.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function event(): BelongsTo
     {
@@ -62,8 +60,6 @@ class Ticket extends MyBaseModel
 
     /**
      * The order associated with the ticket.
-     *
-     * @return BelongsToMany
      */
     public function orders(): BelongsToMany
     {
@@ -77,17 +73,12 @@ class Ticket extends MyBaseModel
 
     /**
      * The questions associated with the ticket.
-     *
-     * @return BelongsToMany
      */
     public function questions(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Question::class);
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function event_access_codes(): BelongsToMany
     {
         return $this->belongsToMany(

@@ -48,17 +48,12 @@ class EventAccessCodes extends MyBaseModel
 
     /**
      * The Event associated with the event access code.
-     *
-     * @return BelongsTo
      */
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(

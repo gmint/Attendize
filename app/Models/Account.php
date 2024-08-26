@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Attendize\Utils;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Attendize\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends MyBaseModel
@@ -72,8 +72,6 @@ class Account extends MyBaseModel
 
     /**
      * The users associated with the account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users(): HasMany
     {
@@ -82,8 +80,6 @@ class Account extends MyBaseModel
 
     /**
      * The orders associated with the account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function orders(): HasMany
     {
@@ -102,8 +98,6 @@ class Account extends MyBaseModel
 
     /**
      * Payment gateways associated with an account
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function account_payment_gateways(): HasMany
     {
@@ -122,8 +116,6 @@ class Account extends MyBaseModel
 
     /**
      * Get an accounts active payment gateway
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function active_payment_gateway(): HasOne
     {

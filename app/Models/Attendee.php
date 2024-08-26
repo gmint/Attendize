@@ -72,8 +72,6 @@ class Attendee extends MyBaseModel
 
     /**
      * The order associated with the attendee.
-     *
-     * @return BelongsTo
      */
     public function order(): BelongsTo
     {
@@ -82,8 +80,6 @@ class Attendee extends MyBaseModel
 
     /**
      * The ticket associated with the attendee.
-     *
-     * @return BelongsTo
      */
     public function ticket(): BelongsTo
     {
@@ -92,17 +88,12 @@ class Attendee extends MyBaseModel
 
     /**
      * The event associated with the attendee.
-     *
-     * @return BelongsTo
      */
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function answers(): HasMany
     {
         return $this->hasMany(QuestionAnswer::class);
