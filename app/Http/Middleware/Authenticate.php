@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,7 @@ class Authenticate extends Middleware
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    public function handle($request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next, ...$guards): Response
     {
         if (Auth::guard($guards)->guest()) {
             if ($request->is('api/*') || $request->ajax() || $request->wantsJson()) {

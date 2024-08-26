@@ -2,7 +2,7 @@
 
 class OrganiserEventsTest extends TestCase
 {
-    public function test_show_events_displays_events()
+    public function test_show_events_displays_events(): void
     {
         $organiser = factory(App\Models\Organiser::class)->create(['account_id' => 1]);
 

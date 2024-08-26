@@ -66,7 +66,7 @@ class Order extends MyBaseModel
      *
      * @return HasMany
      */
-    public function orderItems()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
@@ -76,7 +76,7 @@ class Order extends MyBaseModel
      *
      * @return HasMany
      */
-    public function attendees()
+    public function attendees(): HasMany
     {
         return $this->hasMany(Attendee::class);
     }
@@ -86,7 +86,7 @@ class Order extends MyBaseModel
      *
      * @return BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
@@ -96,7 +96,7 @@ class Order extends MyBaseModel
      *
      * @return BelongsTo
      */
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
@@ -106,7 +106,7 @@ class Order extends MyBaseModel
      *
      * @return BelongsToMany
      */
-    public function tickets()
+    public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(
             Ticket::class,
@@ -119,7 +119,7 @@ class Order extends MyBaseModel
     /**
      * @return BelongsTo
      */
-    public function payment_gateway()
+    public function payment_gateway(): BelongsTo
     {
         return $this->belongsTo(PaymentGateway::class);
     }
@@ -129,7 +129,7 @@ class Order extends MyBaseModel
      *
      * @return BelongsTo
      */
-    public function orderStatus()
+    public function orderStatus(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class);
     }

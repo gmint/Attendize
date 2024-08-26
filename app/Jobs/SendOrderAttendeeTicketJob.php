@@ -33,7 +33,7 @@ class SendOrderAttendeeTicketJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         GenerateTicketJob::dispatchNow($this->attendee);
         $mail = new SendOrderAttendeeTicketMail($this->attendee);

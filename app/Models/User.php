@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Notifications\UserResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,7 +73,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Account::class);
     }
@@ -81,7 +83,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function activity()
+    public function activity(): HasMany
     {
         return $this->hasMany(\App\Models\Activity::class);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,7 +60,7 @@ class Event extends MyBaseModel
      *
      * @return BelongsToMany
      */
-    public function questions()
+    public function questions(): BelongsToMany
     {
         return $this->belongsToMany(Question::class, 'event_question');
     }
@@ -69,7 +70,7 @@ class Event extends MyBaseModel
      *
      * @return BelongsToMany
      */
-    public function questions_with_trashed()
+    public function questions_with_trashed(): BelongsToMany
     {
         return $this->belongsToMany(Question::class, 'event_question')->withTrashed();
     }
@@ -79,7 +80,7 @@ class Event extends MyBaseModel
      *
      * @return HasMany
      */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(EventImage::class);
     }
@@ -89,7 +90,7 @@ class Event extends MyBaseModel
      *
      * @return mixed
      */
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class)->orderBy('created_at', 'DESC');
     }
@@ -99,7 +100,7 @@ class Event extends MyBaseModel
      *
      * @return HasMany
      */
-    public function tickets()
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
@@ -109,7 +110,7 @@ class Event extends MyBaseModel
      *
      * @return HasMany
      */
-    public function affiliates()
+    public function affiliates(): HasMany
     {
         return $this->hasMany(Affiliate::class);
     }
@@ -119,7 +120,7 @@ class Event extends MyBaseModel
      *
      * @return HasMany
      */
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
@@ -129,7 +130,7 @@ class Event extends MyBaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
@@ -139,7 +140,7 @@ class Event extends MyBaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function organiser()
+    public function organiser(): BelongsTo
     {
         return $this->belongsTo(Organiser::class);
     }
@@ -299,7 +300,7 @@ class Event extends MyBaseModel
      *
      * @return HasMany
      */
-    public function attendees()
+    public function attendees(): HasMany
     {
         return $this->hasMany(Attendee::class);
     }
@@ -415,7 +416,7 @@ ICSTemplate;
      *
      * @return HasMany
      */
-    public function access_codes()
+    public function access_codes(): HasMany
     {
         return $this->hasMany(EventAccessCodes::class, 'event_id', 'id');
     }
@@ -461,7 +462,7 @@ ICSTemplate;
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function currency()
+    public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
     }
@@ -471,7 +472,7 @@ ICSTemplate;
      *
      * @return HasMany
      */
-    public function stats()
+    public function stats(): HasMany
     {
         return $this->hasMany(EventStats::class);
     }

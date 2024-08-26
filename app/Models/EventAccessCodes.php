@@ -51,7 +51,7 @@ class EventAccessCodes extends MyBaseModel
      *
      * @return BelongsTo
      */
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
@@ -59,7 +59,7 @@ class EventAccessCodes extends MyBaseModel
     /**
      * @return BelongsToMany
      */
-    public function tickets()
+    public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(
             Ticket::class,
