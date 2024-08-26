@@ -34,11 +34,6 @@ class Attendee extends MyBaseModel
         'arrival_time',
     ];
 
-    protected $casts = [
-        'is_refunded' => 'boolean',
-        'is_cancelled' => 'boolean',
-    ];
-
     /**
      * Generate a private reference number for the attendee. Use for checking in the attendee.
      */
@@ -57,6 +52,14 @@ class Attendee extends MyBaseModel
             $order->private_reference_number = $token;
         });
 
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_refunded' => 'boolean',
+            'is_cancelled' => 'boolean',
+        ];
     }
 
     /**
