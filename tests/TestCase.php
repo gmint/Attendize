@@ -7,7 +7,7 @@ use Tests\Concerns\DatabaseSetup;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseSetup;
+    use DatabaseSetup;
 
     /**
      * Initializes the tests
